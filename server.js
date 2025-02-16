@@ -19,7 +19,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins = ['http://localhost:3000', 'https://yourfrontenddomain.com'];
+const allowedOrigins = ['http://localhost:3000', 'https://clinic-dashboard-mu.vercel.app'];
 
 app.use(cors({
   origin: function (origin, callback) {

@@ -6,7 +6,7 @@ const router = express.Router();
 const authMiddleware = require('../middleware/authmiddleware');
 
 // Book an appointment
-router.post('/',authMiddleware, async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const { doctorId, date, time, patientName, phone, location, referredBy } = req.body;
 
@@ -40,7 +40,7 @@ router.post('/',authMiddleware, async (req, res) => {
 });
 
 // Get all appointments with patient details
-router.get('/',authMiddleware, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const appointments = await Appointment.find()
       .populate('doctorId', 'name specialty')
@@ -51,7 +51,7 @@ router.get('/',authMiddleware, async (req, res) => {
   }
 });
 
-router.patch('/:id',authMiddleware, async (req, res) => {
+router.patch('/:id', async (req, res) => {
   try {
     
       const { id } = req.params; // Extract appointment ID from URL
@@ -73,7 +73,7 @@ router.patch('/:id',authMiddleware, async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
 });
-router.get('/doctor/:doctorId/patients',authMiddleware, async (req, res) => {
+router.get('/doctor/:doctorId/patients', async (req, res) => {
     try {
       const { doctorId } = req.params;
       
@@ -86,7 +86,7 @@ router.get('/doctor/:doctorId/patients',authMiddleware, async (req, res) => {
     }
   });
 
-  router.get('/doctor/:doctorId/appointments/:date',authMiddleware, async (req, res) => {
+  router.get('/doctor/:doctorId/appointments/:date', async (req, res) => {
     try {
       const { doctorId, date } = req.params;
   
@@ -113,7 +113,7 @@ router.get('/doctor/:doctorId/patients',authMiddleware, async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   });
-  router.get('/doctor/:doctorId/report',authMiddleware, async (req, res) => {
+  router.get('/doctor/:doctorId/report', async (req, res) => {
     try {
       const { doctorId } = req.params;
       const { type, value } = req.query; // type = day, month, year | value = YYYY-MM-DD, YYYY-MM, YYYY
@@ -153,7 +153,7 @@ router.get('/doctor/:doctorId/patients',authMiddleware, async (req, res) => {
     
 
   // Get appointments by date
-router.get("/date/:date",authMiddleware, async (req, res) => {
+router.get("/date/:date", async (req, res) => {
   try {
       const { date } = req.params;
 

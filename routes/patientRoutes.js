@@ -4,7 +4,7 @@ const router = express.Router();
 const authMiddleware = require('../middleware/authmiddleware');
 
 // Add a new patient
-router.post('/',authMiddleware, async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const { name, phone, location, referredBy, medicalHistory } = req.body;
 
@@ -25,7 +25,7 @@ console.log('ddd');
 });
 
 // Get all patients
-router.get('/',authMiddleware,async (req, res) => {
+router.get('/',async (req, res) => {
   try {
     const patients = await Patient.find();
     res.json(patients);
@@ -35,7 +35,7 @@ router.get('/',authMiddleware,async (req, res) => {
 });
 
 // Get a single patient by ID
-router.get('/:id',authMiddleware, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const patient = await Patient.findById(req.params.id);
     if (!patient) return res.status(404).json({ message: 'Patient not found' });

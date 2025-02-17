@@ -6,7 +6,7 @@ const doctorSchema = new mongoose.Schema({
     type: String,
     enum: [
       'Cardiology', 'Neurology', 'Orthopedics', 'Pediatrics', 'Dermatology',
-      'Oncology', 'Psychiatry', 'General Medicine'
+      'Oncology', 'Psychiatry', 'General Medicine','Gynaecology'
     ],
     required: true
   },

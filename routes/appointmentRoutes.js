@@ -8,7 +8,11 @@ const authMiddleware = require('../middleware/authmiddleware');
 // Book an appointment
 router.post('/', async (req, res) => {
   try {
-    const { doctorId, date, time, patientName, phone, location, referredBy } = req.body;
+    const { doctorId, date, time, patientName, phone, location, referredBy, type } = req.body;
+
+    if (!['New Patient', 'Revisit', 'Follow-up'].includes(type)) {
+      return res.status(400).json({ message: 'Invalid appointment type' });
+    }
 
     let patient = await Patient.findOne({ phone });
     if (!patient) {
@@ -29,7 +33,8 @@ router.post('/', async (req, res) => {
       doctorId,
       patientId: patient._id, // Store patient reference
       date,
-      time
+      time,
+      type, // Store the type of appointment
     });
 
     await appointment.save();

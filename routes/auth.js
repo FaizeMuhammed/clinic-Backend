@@ -39,10 +39,15 @@ router.post('/login', async (req, res) => {
     // Generate JWT token
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
-    // Set token in cookie
+    // Option 1: Still set the token in cookie for additional security
     res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
 
-    res.json({ message: 'Login successful', user: { name: user.name, email: user.email } });
+    // Option 2: Send token in response body for frontend storage
+    res.json({ 
+      message: 'Login successful', 
+      token: token,
+      user: { name: user.name, email: user.email } 
+    });
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
@@ -55,15 +60,12 @@ router.post('/logout', (req, res) => {
 });
 
 router.get('/me', authMiddleware, async (req, res) => {
-    
-    
-    try {
-      const user = await User.findById(req.user.userId).select('-password');
-      res.json(user);
-    } catch (error) {
-      res.status(500).json({ message: 'Error fetching user', error });
-    }
-  });
-  
+  try {
+    const user = await User.findById(req.user.userId).select('-password');
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching user', error });
+  }
+});
 
 module.exports = router;
